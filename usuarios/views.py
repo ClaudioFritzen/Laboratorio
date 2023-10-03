@@ -20,9 +20,10 @@ def cadastro(request):
 
         if not senha == confirmar_senha:
             messages.add_message(request, constants.ERROR, 'As senhas não coincidem')
-            return redirect('usuarios/cadastro')
+            return redirect('/usuarios/cadastro')
         if len(senha) < 6:
-            return redirect('usuarios/cadastro')
+            messages.add_message(request, constants.WARNING, 'Senha deve ser maior que 6 digitos!')
+            return redirect('/usuarios/cadastro')
         
         try:
             # Username deve ser único!
@@ -33,10 +34,12 @@ def cadastro(request):
                 email=email,
                 password=senha,
             )
+
         except:
+            messages.add_message(request, constants.SUCCESS, 'Cadastrado com sucesso!')
             return redirect('/usuarios/cadastro')
         
-        return redirect('usuarios/cadastro')
+        return redirect('/usuarios/cadastro')
 
     
   
