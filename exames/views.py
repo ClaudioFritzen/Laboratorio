@@ -7,3 +7,15 @@ def solicitar_exames(request):
     tipos_exames = TiposExames.objects.all()
     if request.method == "GET":
         return render(request, 'solicitar_exames.html', {'tipos_exames': tipos_exames})
+    elif request.method == "POST":
+        exames_id = request.POST.getlist('exames')
+
+        solicitacao_exames = TiposExames.objects.filter(id__in=exames_id)
+        #preco_total = solicitacao_exames.aggregate(total=Sum('preco'))['total']
+        #todo verificar os dados dados disponiveis
+        
+        preco_total = 0
+        for i in solicitacao_exames:
+            preco_total += i.preco
+        
+        return render(request, 'solicitar_exames.html', {'solicitacao_exames': solicitacao_exames, 'preco_total': preco_total, 'tipos_exames': tipos_exames})

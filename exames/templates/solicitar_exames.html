@@ -14,11 +14,13 @@
             <div class="col-md">
                 <h3 class="font-destaque">Solicitar exames</h3>
                 
-                <form action="" method="POST">
+                <form action="{% url "solicitar_exames" %}" method="POST"> {% csrf_token %}
                     <label for="">Selecione os exames para realizar</label>
                     <select class="select form-control bg-select" multiple name="exames">
                        
-                            <option class="opt" value="">Exame 1</option>
+                        {% for exame in tipos_exames %}
+                            <option class="opt" value="{{exame.id}}">{{exame}}</option>
+                        {% endfor %}
                         
                     </select>
                     <br>
