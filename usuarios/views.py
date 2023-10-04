@@ -59,6 +59,3 @@ def logar(request):
             messages.add_message(request, constants.ERROR, 'Usuario ou senha invalidos')
             return redirect('/usuarios/login')
 
-    
-  
-
