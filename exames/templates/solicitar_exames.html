@@ -33,21 +33,22 @@
             </div>
 
             <div class="col-md card">
-    
-                        <div style="font-size: 20px; font-weight: bold">
-                           
-                            <img src="{% static 'exames/img/check.png' %}">
-                            
-                            Exame 1
-                            <span class="previa-preco">
-                               R$ 30
-                            </span>
-                        </div>
-                   
+                        
+                {% for exames in solicitacao_exames %}
+                    <div style="font-size: 20px; font-weight: bold">
                     
+                        <img src="{% static 'exames/img/check.png' %}"> 
+                        {{exames.nome}}
+                        <span class="previa-preco">
+                        {{exames.preco}}
+                        </span>
+                    </div>
+                        
+                   
+                {% endfor %}    
                     <hr style="color: white;">
                     <div>
-                        <label>Total: </label><label class="previa-preco">R$ 30</label>
+                        <label>Total: </label><label class="previa-preco">R$ {{preco_total}}</label>
                     </div>
                     <br>
 
