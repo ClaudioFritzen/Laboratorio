@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import TiposExames
 
@@ -20,3 +20,7 @@ def solicitar_exames(request):
                 preco_total += i.preco
         
         return render(request, 'solicitar_exames.html', {'solicitacao_exames': solicitacao_exames, 'preco_total': preco_total, 'tipos_exames': tipos_exames})
+    
+
+def fechar_pedido(request):
+    return HttpResponse('Consulta marcada')
