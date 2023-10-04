@@ -3,7 +3,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.messages import constants
 from django.contrib import messages
 
-
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 # Create your views here.
 
@@ -34,12 +34,24 @@ def cadastro(request):
                 email=email,
                 password=senha,
             )
-
-        except:
             messages.add_message(request, constants.SUCCESS, 'Cadastrado com sucesso!')
+        except:
+            messages.add_message(request, constants.ERROR, 'Erro interno do sistema, tente mais tarde!!!')
             return redirect('/usuarios/cadastro')
         
         return redirect('/usuarios/cadastro')
+
+def login(request):
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        senha = request.POST.get('senha')
+
+        user = authenticate(username=username, password=senha)
+
+        return HttpResponse('Login')
 
     
   
