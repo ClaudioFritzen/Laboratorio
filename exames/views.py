@@ -13,9 +13,10 @@ def solicitar_exames(request):
         solicitacao_exames = TiposExames.objects.filter(id__in=exames_id)
         #preco_total = solicitacao_exames.aggregate(total=Sum('preco'))['total']
         #todo verificar os dados dados disponiveis
-        
+
         preco_total = 0
         for i in solicitacao_exames:
-            preco_total += i.preco
+            if i.disponivel:
+                preco_total += i.preco
         
         return render(request, 'solicitar_exames.html', {'solicitacao_exames': solicitacao_exames, 'preco_total': preco_total, 'tipos_exames': tipos_exames})

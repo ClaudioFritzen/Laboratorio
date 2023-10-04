@@ -36,8 +36,14 @@
                         
                 {% for exames in solicitacao_exames %}
                     <div style="font-size: 20px; font-weight: bold">
-                    
-                        <img src="{% static 'exames/img/check.png' %}"> 
+                       
+                        {% if exames.disponivel %}
+                            <img src="{% static 'exames/img/check.png' %}">
+
+                        {% else %}
+                            <img src="{% static 'exames/img/exit.png' %}">
+                        {% endif %}
+                         
                         {{exames.nome}}
                         <span class="previa-preco">
                         {{exames.preco}}
