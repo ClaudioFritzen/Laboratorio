@@ -63,7 +63,7 @@
 
                     <form action="{% url "fechar_pedido" %}" method="POST"> {% csrf_token %}
                         {% for exames in solicitacao_exames %}
-                            <input type="hidden" value="{{exame.id}}" name="exames">
+                            <input type="hidden" value="{{exames.id}}" name="exames">
                         {% endfor %}
                         <button class="btn-secundario">Fechar pedido</button>
                     </form>

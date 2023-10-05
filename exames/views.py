@@ -1,6 +1,11 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
-from .models import TiposExames
+from .models import TiposExames, PedidosExames, SolicitacaoExame
+from datetime import datetime
+
+
+from django.contrib.messages import constants
+from django.contrib import messages
 
 @login_required
 def solicitar_exames(request):
@@ -22,5 +27,31 @@ def solicitar_exames(request):
         return render(request, 'solicitar_exames.html', {'solicitacao_exames': solicitacao_exames, 'preco_total': preco_total, 'tipos_exames': tipos_exames})
     
 
+@login_required
 def fechar_pedido(request):
-    return HttpResponse('Consulta marcada')
+    exames_id = request.POST.getlist('exames')
+    print(exames_id)
+    solicitacao_exames = TiposExames.objects.filter(id__in=exames_id)
+    print(solicitacao_exames)
+    pedido_exame = PedidosExames(
+        usuario = request.user,
+        data = datetime.now()
+    )
+
+    pedido_exame.save()
+
+    for exame in solicitacao_exames:
+        solicitacao_exames_temp = SolicitacaoExame(
+            usuario=request.user,
+            exame=exame,
+            status="E"
+        )
+        solicitacao_exames_temp.save()
+        pedido_exame.exames.add(solicitacao_exames_temp)
+        
+    pedido_exame.save()
+
+    messages.add_message(request, constants.SUCCESS, 'Pedido de exame concluído com sucesso')
+    return redirect('/exames/ver_pedidos/')
+
+    
